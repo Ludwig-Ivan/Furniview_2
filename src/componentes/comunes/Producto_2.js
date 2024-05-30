@@ -1,7 +1,6 @@
 import React from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import {Default_theme} from '../../constants';
-import furnitures from '../../constants/furnitures';
+import {Default_theme, Furnitures} from '../../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Producto_2 = ({producto, img, func, styleExt}) => {
@@ -17,6 +16,7 @@ const Producto_2 = ({producto, img, func, styleExt}) => {
         }
       }}>
       <View style={style.info}>
+        <Image style={style.img} source={img ? img : Furnitures.furniture1} />
         <Text style={style.precio}>{'$' + (precio ? precio : '00.00')}</Text>
         <Pressable
           onPress={() => {
@@ -28,7 +28,6 @@ const Producto_2 = ({producto, img, func, styleExt}) => {
         </Pressable>
         <Text style={style.prod}>{nombre ? nombre : 'Producto'}</Text>
       </View>
-      <Image style={style.img} source={img ? img : furnitures.furniture1} />
     </Pressable>
   );
 };
@@ -48,8 +47,8 @@ const style = StyleSheet.create({
     position: 'absolute',
   },
   img: {
-    maxHeight: 154,
-    maxWidth: 153,
+    height: 154,
+    width: 153,
     position: 'absolute',
   },
   info: {
