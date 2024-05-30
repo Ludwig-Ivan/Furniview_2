@@ -12,14 +12,17 @@ import validator from 'validator';
 funcion asincrona que recibe el email, contra, y la navegacion: para validar que el cliente que quiere ingresar
 si concuerde con su contrasena, permitiendo la navegacion (Verificar el email que exista y este en formato correcto[pendiente])
 */
-async function Ingresar_Val(email, password, navigation) {
+async function Ingresar_Val(email, password, navigation, setError) {
   try {
     const cli = await axios.get(
       `https://${JsonInfo.ip}/clientes/${email}/${password}`,
     );
     const ocli = cli.data;
     if (ocli !== null) {
+      setError(false);
       navigation.navigate('Menu', {id: ocli.id});
+    } else {
+      setError(true);
     }
   } catch (error) {
     console.error(error);
@@ -30,6 +33,7 @@ async function Ingresar_Val(email, password, navigation) {
 const Ingresar = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [contrasena, setContrasena] = useState('');
+  const [error, setError] = useState(false);
   return (
     <View style={{flex: 1}}>
       <View style={style.cont_img}>
@@ -65,6 +69,13 @@ const Ingresar = ({navigation}) => {
               }}>
               <Text style={style.link}>Olvidaste tu contrasena?</Text>
             </Pressable>
+            {error ? (
+              <Text style={{color: '#F00', fontStyle: 'italic'}}>
+                Usuario o contrasena incorrecta
+              </Text>
+            ) : (
+              ''
+            )}
           </View>
           <Boton
             func={
@@ -72,9 +83,14 @@ const Ingresar = ({navigation}) => {
               () => {
                 if (
                   validator.isEmail(email) ||
-                  validator.isAlphanumeric(email)
+                  (validator.isAlphanumeric(email) &&
+                    !validator.isEmpty(email) &&
+                    !validator.isEmpty(contrasena))
                 ) {
-                  Ingresar_Val(email, contrasena, navigation);
+                  setError(false);
+                  Ingresar_Val(email, contrasena, navigation, setError);
+                } else {
+                  setError(true);
                 }
               }
             }

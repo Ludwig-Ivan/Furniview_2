@@ -33,12 +33,27 @@ async function Ingresar_Cli(email, user, password, navigation) {
 
 //funcion que se encarga de validar todos los campos
 function ValidarDatos(email, user, password, repcontrasena, score) {
-  return validator.isEmail(email) &&
-    validator.isAlphanumeric(user) &&
-    score >= 3 &&
-    password === repcontrasena
-    ? true
-    : false;
+  if (email !== '' && user !== '' && password !== '' && repcontrasena !== '') {
+    if (validator.isEmail(email)) {
+      if (validator.isAlphanumeric(user)) {
+        if (score >= 3) {
+          if (password === repcontrasena) {
+            return '';
+          } else {
+            return 'La contrasenas no son iguales';
+          }
+        } else {
+          return 'Contrasena poco segura';
+        }
+      } else {
+        return 'El usuario no admite caracteres especiales';
+      }
+    } else {
+      return 'Formato del email incorrecto';
+    }
+  } else {
+    return 'Campos vacio';
+  }
 }
 
 //Ventana para el registro del cliente, se pide el email, usuario, contrasena y repetir esta misma
@@ -48,6 +63,7 @@ const Registrarse = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [repcontrasena, setRepContrasena] = useState('');
   const [score, setScore] = useState(0);
+  const [error, setError] = useState(' ');
 
   useEffect(() => {
     setScore(zxcvbn(password).score);
@@ -95,11 +111,16 @@ const Registrarse = ({navigation}) => {
               placeholder={'Repetir contrasena'}
             />
           </View>
+          <Text style={{color: '#F00'}}>{error}</Text>
           <Boton
             func={
               //Funcion Flecha que llama al metodo para registrar al cliente
               () => {
-                if (ValidarDatos(email, user, password, repcontrasena, score)) {
+                setError(
+                  ValidarDatos(email, user, password, repcontrasena, score),
+                );
+                console.log(error);
+                if (error === '') {
                   Ingresar_Cli(email, user, password, navigation);
                 }
               }
