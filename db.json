@@ -1,0 +1,54 @@
+{
+  "clientes": [
+    {
+      "id": "0757",
+      "email": "Hola",
+      "user": "Ivan",
+      "contrasena": "111"
+    },
+    {
+      "id": "0758",
+      "email": "Hhhhhh.hhhj.njj",
+      "user": "Ivan",
+      "contrasena": "5647954"
+    }
+  ],
+  "productos": [
+    {
+      "id": "3",
+      "nombre": "Cocina Integral",
+      "precio": "200.00",
+      "categoria": "Modernos",
+      "colores": [
+        "rojo",
+        "verder",
+        "amarillo",
+        "azul"
+      ],
+      "descripcion": "Mueble de cocina super ergonomico, pino y cuero",
+      "info-especifica": {
+        "Dimensiones": "100x100",
+        "Tipo": "Pino"
+      },
+      "idcli": "0758"
+    },
+    {
+      "id": "2",
+      "nombre": "Cocina Integral",
+      "precio": "200.00",
+      "categoria": "Minimalista",
+      "colores": [
+        "rojo",
+        "verder",
+        "amarillo",
+        "azul"
+      ],
+      "descripcion": "Mueble de cocina super ergonomico, pino y cuero",
+      "info-especifica": {
+        "Dimensiones": "100x100",
+        "Tipo": "Pino"
+      },
+      "idcli": "0757"
+    }
+  ]
+}
