@@ -95,11 +95,11 @@ const Producto = ({navigation, route}) => {
           {Info(
             [
               'Peso',
-              'Fecha de creacion',
+              'Fecha de publicacion',
               'Categoria',
               'Sucursal',
               'Direccion',
-              'Cliente',
+              'Usuario',
             ],
             [
               prod.peso,

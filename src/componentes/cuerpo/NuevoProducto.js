@@ -28,106 +28,7 @@ async function imageLaunch() {
   }
 }
 
-//metodo que agrega nuevos productos en base al cliente que lo creo
-async function NuevoProduct(
-  prod,
-  peso,
-  precio,
-  descripcion,
-  cat,
-  suc,
-  dir,
-  id,
-  navigation,
-) {
-  try {
-    await axios.post(`https://${JsonInfo.ip}/productos`, {
-      nombre: prod,
-      peso: peso,
-      precio: precio,
-      descripcion: descripcion,
-      categoria: cat,
-      sucursal: suc,
-      direccion: dir,
-      idcliente: id,
-    });
-    console.log('Producto agregado con exito');
-    navigation.goBack();
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-//metodo para editar productos del cliente
-async function EditarProduct(
-  prod,
-  peso,
-  precio,
-  descripcion,
-  cat,
-  suc,
-  dir,
-  id,
-  navigation,
-) {
-  try {
-    await axios.put(`https://${JsonInfo.ip}/productos/${id}`, {
-      nombre: prod,
-      peso: peso,
-      precio: precio,
-      descripcion: descripcion,
-      categoria: cat,
-      sucursal: suc,
-      direccion: dir,
-    });
-    console.log('Producto editado con exito');
-    navigation.goBack();
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-//metodo para obtener producto del cliente
-async function ObtProducto(
-  id,
-  setProd,
-  setFecha,
-  setPrecio,
-  setPeso,
-  setCat,
-  setSuc,
-  setDir,
-  setDes,
-) {
-  try {
-    const producto = (await axios.get(`https://${JsonInfo.ip}/productos/${id}`))
-      .data;
-    setProd(producto.nombre);
-    setFecha(producto.fechacreacion);
-    setPrecio(producto.precio);
-    setCat(producto.categoria);
-    setPeso(producto.peso);
-    setSuc(producto.sucursal);
-    setDir(producto.direccion);
-    setDes(producto.descripcion);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 //Valida que al editar o agregar uno nuevo sea de manera correcta
-function ValidarNuevo(prod, peso, precio) {
-  console.log(
-    validator.isAlpha(prod),
-    validator.isFloat(peso),
-    validator.isFloat(precio + ''),
-  );
-  return (
-    validator.isAlpha(prod) &&
-    validator.isFloat(peso) &&
-    validator.isFloat(precio + '')
-  );
-}
 
 //Genera la lista de categorias para RNPickerSelect
 function List_Item(categorias) {
@@ -153,19 +54,76 @@ const NuevoProducto = ({navigation, route}) => {
   const [des, setDes] = useState('');
   const [img, setImg] = useState(Furnitures.furniture12);
 
+  async function NuevoProduct() {
+    try {
+      await axios.post(`https://${JsonInfo.ip}/productos`, {
+        nombre: prod,
+        peso: peso,
+        precio: precio,
+        descripcion: des,
+        categoria: cat,
+        sucursal: suc,
+        direccion: dir,
+        idcliente: id,
+      });
+      console.log('Producto agregado con exito');
+      navigation.goBack();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function EditarProduct() {
+    try {
+      await axios.put(`https://${JsonInfo.ip}/productos/${id}`, {
+        nombre: prod,
+        peso: peso,
+        precio: precio,
+        descripcion: des,
+        categoria: cat,
+        sucursal: suc,
+        direccion: dir,
+      });
+      console.log('Producto editado con exito');
+      navigation.goBack();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function ValidarNuevo() {
+    console.log(
+      validator.isAlpha(prod),
+      validator.isFloat(peso),
+      validator.isFloat(precio + ''),
+    );
+    return (
+      validator.isAlpha(prod) &&
+      validator.isFloat(peso) &&
+      validator.isFloat(precio + '')
+    );
+  }
+
   useEffect(() => {
+    async function ObtProducto() {
+      try {
+        const producto = (
+          await axios.get(`https://${JsonInfo.ip}/productos/${id}`)
+        ).data;
+        setProd(producto.nombre);
+        setFecha(producto.fechacreacion);
+        setPrecio(producto.precio);
+        setCat(producto.categoria);
+        setPeso(producto.peso);
+        setSuc(producto.sucursal);
+        setDir(producto.direccion);
+        setDes(producto.descripcion);
+      } catch (error) {
+        console.error(error);
+      }
+    }
     if (op === 'Editar') {
-      ObtProducto(
-        id,
-        setProd,
-        setFecha,
-        setPrecio,
-        setPeso,
-        setCat,
-        setSuc,
-        setDir,
-        setDes,
-      );
+      ObtProducto();
       console.log('ejecuto');
     }
   }, [op]);
@@ -181,31 +139,11 @@ const NuevoProducto = ({navigation, route}) => {
         <Text style={style_txt.tit}>{op} Producto</Text>
         <Pressable
           onPress={() => {
-            if (ValidarNuevo(prod, peso, precio, des)) {
+            if (ValidarNuevo()) {
               if (op === 'Nuevo') {
-                NuevoProduct(
-                  prod,
-                  peso,
-                  precio,
-                  des,
-                  cat,
-                  suc,
-                  dir,
-                  id,
-                  navigation,
-                );
+                NuevoProduct();
               } else {
-                EditarProduct(
-                  prod,
-                  peso,
-                  precio,
-                  des,
-                  cat,
-                  suc,
-                  dir,
-                  id,
-                  navigation,
-                );
+                EditarProduct();
               }
             } else {
               console.error('Campos incorrectos');
