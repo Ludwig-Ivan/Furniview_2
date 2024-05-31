@@ -124,7 +124,6 @@ const NuevoProducto = ({navigation, route}) => {
     }
     if (op === 'Editar') {
       ObtProducto();
-      console.log('ejecuto');
     }
   }, [op]);
 

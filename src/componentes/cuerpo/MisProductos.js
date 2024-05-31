@@ -1,41 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
-import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  Pressable,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import Producto from '../comunes/Producto';
 import Regresar from '../comunes/Regresar';
 import {JsonInfo} from '../../constants';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-//funcion que genera la lista de productos (obtener la info de la db y generar la lista[pendiente])
-function productos(list, navigation) {
-  let list_res = [];
-  for (let i = 0; i < list.length; i++) {
-    //se genera la lista de componentes producto en base a los productos obtenidos de la db.json
-    list_res.push(
-      <Producto
-        func={BorrarProd}
-        key={i}
-        func2={() => {
-          navigation.navigate('NuevoProducto', {id: list[i].id, op: 'Editar'});
-        }}
-        icon={'trash-outline'}
-        producto={list[i]}
-      />,
-    );
-  }
-  return list_res;
-}
-
-//funcion asincrona que obtiene la informacion de los productos
-async function ObtenerProd(id, setList) {
-  try {
-    const prods = (
-      await axios.get(`https://${JsonInfo.ip}/productos/cliente/${id}`)
-    ).data;
-    setList(prods);
-  } catch (error) {}
-}
 
 //funcion asincrona que elimina los productos de la db.json
 async function BorrarProd(id) {
@@ -49,9 +27,38 @@ async function BorrarProd(id) {
 }
 
 const MisProductos = ({navigation}) => {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState(['']);
   const [id, setId] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const productos = async () => {
+    let list_res = [];
+    let prods;
+    try {
+      prods = (
+        await axios.get(`https://${JsonInfo.ip}/productos/cliente/${id}`)
+      ).data;
+    } catch (error) {}
+
+    for (let i = 0; i < prods.length; i++) {
+      list_res.push(
+        <Producto
+          func={BorrarProd}
+          key={i}
+          func2={() => {
+            navigation.navigate('NuevoProducto', {
+              id: prods[i].id,
+              op: 'Editar',
+            });
+          }}
+          icon={'trash-outline'}
+          producto={prods[i]}
+        />,
+      );
+    }
+    setList(list_res);
+  };
 
   const getIdCli = async () => {
     const item = await AsyncStorage.getItem('idCliente');
@@ -60,9 +67,17 @@ const MisProductos = ({navigation}) => {
 
   useEffect(() => {
     getIdCli();
+    productos();
     setLoading(false);
-    ObtenerProd(id, setList);
   }, [id]);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    productos();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
 
   if (loading) {
     return (
@@ -91,8 +106,11 @@ const MisProductos = ({navigation}) => {
       <ScrollView
         style={style.body}
         contentContainerStyle={style.body_cont}
-        showsVerticalScrollIndicator={false}>
-        {productos(list, navigation)}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        {list}
       </ScrollView>
     </View>
   );

@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import {Default_theme, Furnitures, icons} from '../../constants';
+import {Default_theme, Furnitures} from '../../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 //Este componente recibe un objeto producto(contiene la informacion y la desempaqueta), una imagen relacionada, icon, func y estilos extras
