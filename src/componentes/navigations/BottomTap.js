@@ -11,7 +11,6 @@ import {Default_theme} from '../../constants';
 import Perfil from '../cuerpo/Perfil';
 import Perfil_Icon from '../comunes/Perfil_Icon';
 import Icon from 'react-native-vector-icons/Ionicons';
-import furnitures from '../../constants/furnitures';
 
 const Bottom = createBottomTabNavigator();
 
@@ -27,26 +26,19 @@ const Res = ({navigation}) => (
   </Background>
 );
 
-const BottomTap = ({route}) => {
-  //el id del cliente que inicio sesion
-  const {id} = route.params;
+const MisP = ({navigation}) => (
+  <Background>
+    <MisProductos navigation={navigation} />
+  </Background>
+);
 
-  //elemento misproductos se le manda la id
-  const MisP = ({navigation}) => (
-    <Background>
-      <MisProductos navigation={navigation} id={id} />
-    </Background>
-  );
-  //elemento menu que se le manda la id
-  const MenuP = ({navigation}) => (
-    <Background>
-      <Menu navigation={navigation} id={id} />
-    </Background>
-  );
+const MenuP = ({navigation}) => (
+  <Background>
+    <Menu navigation={navigation} />
+  </Background>
+);
 
-  //elemento de perfil que se le manda la id
-  const PerfilP = ({navigation}) => <Perfil navigation={navigation} id={id} />;
-
+const BottomTap = () => {
   //sistema de navegacion de tipo BottomTap
   return (
     <Bottom.Navigator
@@ -66,7 +58,7 @@ const BottomTap = ({route}) => {
               size={40}
               color="#000"
             />
-          ), //<Image style={style.icon} source={icons.home} />,
+          ),
         }}
         name={'MenuInt'}
         component={MenuP}
@@ -115,7 +107,7 @@ const BottomTap = ({route}) => {
           tabBarIcon: () => <Perfil_Icon />,
         }}
         name={'Perfil'}
-        component={PerfilP}
+        component={Perfil}
       />
     </Bottom.Navigator>
   );

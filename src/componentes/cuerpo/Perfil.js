@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {Default_theme, Furnitures, Imagenes} from '../../constants';
 import Seccion_2 from '../comunes/Seccion_2';
 import Regresar from '../comunes/Regresar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function secciones(can) {
   let list_sec = [];
@@ -12,7 +13,28 @@ function secciones(can) {
   return list_sec;
 }
 
-const Perfil = ({navigation, fondo, perfil, id}) => {
+const Perfil = ({navigation, fondo, perfil}) => {
+  const [id, setId] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  const getIdCli = async () => {
+    const item = await AsyncStorage.getItem('idCliente');
+    setId(JSON.parse(item));
+  };
+
+  useEffect(() => {
+    getIdCli();
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <ScrollView style={style.scroll}>
       <Image

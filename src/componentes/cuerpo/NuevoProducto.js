@@ -12,13 +12,7 @@ import {
 } from 'react-native';
 import Regresar from '../comunes/Regresar';
 import Seccion from '../comunes/Seccion';
-import {
-  Categorias,
-  Default_theme,
-  Furnitures,
-  JsonInfo,
-  icons,
-} from '../../constants';
+import {Categorias, Default_theme, Furnitures, JsonInfo} from '../../constants';
 import axios from 'axios';
 import validator from 'validator';
 import RNPickerSelect from 'react-native-picker-select';

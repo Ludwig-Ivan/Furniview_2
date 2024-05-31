@@ -5,6 +5,7 @@ import Regresar from '../comunes/Regresar';
 import {JsonInfo} from '../../constants';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //funcion que genera la lista de productos (obtener la info de la db y generar la lista[pendiente])
 function productos(list, navigation) {
@@ -47,11 +48,30 @@ async function BorrarProd(id) {
   }
 }
 
-const MisProductos = ({navigation, id}) => {
+const MisProductos = ({navigation}) => {
   const [list, setList] = useState([]);
+  const [id, setId] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  const getIdCli = async () => {
+    const item = await AsyncStorage.getItem('idCliente');
+    setId(JSON.parse(item));
+  };
+
   useEffect(() => {
+    getIdCli();
+    setLoading(false);
     ObtenerProd(id, setList);
   }, [id]);
+
+  if (loading) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <View>
       <View style={style.head}>

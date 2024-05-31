@@ -27,8 +27,9 @@ function categorias(list_cat, func) {
 }
 
 //Menu donde se agrupan todos los elementos de la vista (recibe el id)
-const Menu = ({navigation, id}) => {
+const Menu = ({navigation}) => {
   const [vis, setVis] = useState(true);
+
   function Nav(idp) {
     navigation.navigate('Producto', {idp});
   }

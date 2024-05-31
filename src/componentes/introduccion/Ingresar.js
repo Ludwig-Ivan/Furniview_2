@@ -8,6 +8,17 @@ import {Default_theme, JsonInfo} from '../../constants';
 import Regresar from '../comunes/Regresar';
 import axios from 'axios';
 import validator from 'validator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+//metodo para persistir la id del cliente en la app
+const setIdCli = async id => {
+  try {
+    await AsyncStorage.setItem('idCliente', JSON.stringify(id));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 /*
 funcion asincrona que recibe el email, contra, y la navegacion: para validar que el cliente que quiere ingresar
 si concuerde con su contrasena, permitiendo la navegacion (Verificar el email que exista y este en formato correcto[pendiente])
@@ -20,7 +31,8 @@ async function Ingresar_Val(email, password, navigation, setError) {
     const ocli = cli.data;
     if (ocli !== null) {
       setError(false);
-      navigation.navigate('Menu', {id: ocli.id});
+      setIdCli(ocli.id);
+      navigation.navigate('Menu');
     } else {
       setError(true);
     }
