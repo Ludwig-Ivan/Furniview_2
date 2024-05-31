@@ -11,6 +11,7 @@ import {Default_theme} from '../../constants';
 import Perfil from '../cuerpo/Perfil';
 import Perfil_Icon from '../comunes/Perfil_Icon';
 import Icon from 'react-native-vector-icons/Ionicons';
+import furnitures from '../../constants/furnitures';
 
 const Bottom = createBottomTabNavigator();
 

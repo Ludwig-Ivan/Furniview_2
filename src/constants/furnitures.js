@@ -4,29 +4,70 @@ const furniture = {
 const furniture1 = {
   uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717038055/Furniview/furnitures/Furniture1_aa30pn.png',
 };
-const furniture2 = require('../assets/furnitures/Furniture2.png');
-const furniture3 = require('../assets/furnitures/Furniture3.png');
-const furniture4 = require('../assets/furnitures/Furniture4.png');
-const furniture5 = require('../assets/furnitures/Furniture5.png');
-const furniture6 = require('../assets/furnitures/Furniture6.png');
-const furniture7 = require('../assets/furnitures/Furniture7.jpeg');
-const furniture8 = require('../assets/furnitures/Furniture8.jpeg');
+const furniture2 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717036999/Furniview/furnitures/Furniture2_vyuh9j.png',
+};
+const furniture3 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717036999/Furniview/furnitures/Furniture3_cmvkuw.png',
+};
+const furniture4 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717037000/Furniview/furnitures/Furniture4_criymv.png',
+};
+const furniture5 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717037000/Furniview/furnitures/Furniture5_kie4rw.png',
+};
+const furniture6 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717037000/Furniview/furnitures/Furniture6_mv5nrl.png',
+};
+const furniture7 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717037001/Furniview/furnitures/Furniture7_ggpfio.jpg',
+};
+const furniture8 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717037001/Furniview/furnitures/Furniture8_r5qkti.jpg',
+};
 const furniture9 = {
   uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717037002/Furniview/furnitures/Furniture9_xm7cc3.jpg',
 };
-const furniture10 = require('../assets/furnitures/Furniture10.jpeg');
-const furniture11 = require('../assets/furnitures/Furniture11.jpeg');
-const furniture12 = require('../assets/furnitures/Furniture12.jpeg');
-const furniture13 = require('../assets/furnitures/Furniture13.jpeg');
-const mueble1 = require('../assets/furnitures/mueble1.jpg');
-const mueble2 = require('../assets/furnitures/mueble2.jpg');
-const mueble3 = require('../assets/furnitures/mueble3.jpg');
-const mueble4 = require('../assets/furnitures/mueble4.jpg');
-const mueble5 = require('../assets/furnitures/mueble5.jpg');
-const mueble6 = require('../assets/furnitures/mueble6.jpg');
-const mueble7 = require('../assets/furnitures/mueble7.jpg');
-const mueble8 = require('../assets/furnitures/mueble8.jpg');
-const mueble9 = require('../assets/furnitures/mueble9.jpg');
+const furniture10 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717036997/Furniview/furnitures/Furniture10_duxf8j.jpg',
+};
+const furniture11 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717036997/Furniview/furnitures/Furniture11_uh72tf.jpg',
+};
+const furniture12 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717036997/Furniview/furnitures/Furniture12_wqskvt.jpg',
+};
+const furniture13 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717036998/Furniview/furnitures/Furniture13_ameh30.jpg',
+};
+
+const mueble1 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717037002/Furniview/furnitures/mueble1_ofbfgw.jpg',
+};
+const mueble2 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717037002/Furniview/furnitures/mueble2_elmefz.jpg',
+};
+const mueble3 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717037003/Furniview/furnitures/mueble3_gbdhll.jpg',
+};
+const mueble4 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717037003/Furniview/furnitures/mueble4_ay0dng.jpg',
+};
+const mueble5 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717037004/Furniview/furnitures/mueble5_ndpbwz.jpg',
+};
+const mueble6 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717037004/Furniview/furnitures/mueble6_nfkeft.jpg',
+};
+const mueble7 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717037005/Furniview/furnitures/mueble7_dupeqg.jpg',
+};
+const mueble8 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717037005/Furniview/furnitures/mueble8_fexzrz.jpg',
+};
+const mueble9 = {
+  uri: 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717037005/Furniview/furnitures/mueble9_c35rcg.jpg',
+};
 
 export default {
   furniture,

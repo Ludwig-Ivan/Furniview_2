@@ -122,12 +122,16 @@ async function ObtProducto(
 }
 
 //Valida que al editar o agregar uno nuevo sea de manera correcta
-function ValidarNuevo(prod, peso, precio, descripcion) {
+function ValidarNuevo(prod, peso, precio) {
+  console.log(
+    validator.isAlpha(prod),
+    validator.isFloat(peso),
+    validator.isFloat(precio + ''),
+  );
   return (
     validator.isAlpha(prod) &&
     validator.isFloat(peso) &&
-    validator.isFloat(precio + '') &&
-    validator.isAlphanumeric(descripcion)
+    validator.isFloat(precio + '')
   );
 }
 
@@ -265,7 +269,7 @@ const NuevoProducto = ({navigation, route}) => {
                 placeholderTextColor={'#000'}
                 value={precio + ''}
                 onChangeText={text => {
-                  setPrecio(Number(text));
+                  setPrecio(Number(text) ? Number(text) : 0);
                 }}
               />
             </View>

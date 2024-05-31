@@ -71,6 +71,7 @@ const style = StyleSheet.create({
   },
   img: {
     width: '100%',
+    minHeight: 280,
   },
   cont: {
     top: -100,

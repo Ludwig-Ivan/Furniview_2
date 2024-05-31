@@ -18,11 +18,17 @@ import Image_Prod from './ImageProd';
 import axios from 'axios';
 
 //funcion que genera la lista de seccion para informacion (falta que leea la info[pendiente])
-function Info(list, list_sec) {
+function Info(list, list_sec, list_icon) {
   let list_info = [];
   for (let i = 0; i < list.length; i++) {
     list_info.push(
-      <Seccion value={list_sec[i]} edit={false} titulo={list[i]} key={i} />,
+      <Seccion
+        value={list_sec[i]}
+        edit={false}
+        icon={list_icon[i]}
+        titulo={list[i]}
+        key={i}
+      />,
     );
   }
   return list_info;
@@ -102,6 +108,14 @@ const Producto = ({navigation, route}) => {
               prod.sucursal,
               prod.direccion,
               cli.usuario,
+            ],
+            [
+              'barbell',
+              'calendar',
+              'file-tray-stacked',
+              'storefront',
+              'business',
+              'person-circle',
             ],
           )}
         </View>

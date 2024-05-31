@@ -33,27 +33,17 @@ async function Ingresar_Cli(email, user, password, navigation) {
 
 //funcion que se encarga de validar todos los campos
 function ValidarDatos(email, user, password, repcontrasena, score) {
-  if (email !== '' && user !== '' && password !== '' && repcontrasena !== '') {
-    if (validator.isEmail(email)) {
-      if (validator.isAlphanumeric(user)) {
-        if (score >= 3) {
-          if (password === repcontrasena) {
-            return '';
-          } else {
-            return 'La contrasenas no son iguales';
-          }
-        } else {
-          return 'Contrasena poco segura';
-        }
-      } else {
-        return 'El usuario no admite caracteres especiales';
-      }
-    } else {
-      return 'Formato del email incorrecto';
-    }
-  } else {
-    return 'Campos vacio';
-  }
+  return email !== '' && user !== '' && password !== '' && repcontrasena !== ''
+    ? validator.isEmail(email)
+      ? validator.isAlphanumeric(user)
+        ? score >= 3
+          ? password === repcontrasena
+            ? ''
+            : 'La contrasenas no son iguales'
+          : 'Contrasena poco segura'
+        : 'El usuario no admite caracteres especiales'
+      : 'Formato del email incorrecto'
+    : 'Campos vacios';
 }
 
 //Ventana para el registro del cliente, se pide el email, usuario, contrasena y repetir esta misma
@@ -110,8 +100,15 @@ const Registrarse = ({navigation}) => {
               titulo={'Repetir Contrasena'}
               placeholder={'Repetir contrasena'}
             />
+            <Text
+              style={{
+                color: '#F00',
+                alignSelf: 'flex-start',
+              }}>
+              {error}
+            </Text>
           </View>
-          <Text style={{color: '#F00'}}>{error}</Text>
+
           <Boton
             func={
               //Funcion Flecha que llama al metodo para registrar al cliente
@@ -119,7 +116,6 @@ const Registrarse = ({navigation}) => {
                 setError(
                   ValidarDatos(email, user, password, repcontrasena, score),
                 );
-                console.log(error);
                 if (error === '') {
                   Ingresar_Cli(email, user, password, navigation);
                 }
