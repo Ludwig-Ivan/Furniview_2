@@ -14,6 +14,7 @@ import Seccion_2 from '../comunes/Seccion_2';
 import Regresar from '../comunes/Regresar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import Carga from '../comunes/Carga';
 
 async function ResetId() {
   try {
@@ -26,6 +27,7 @@ const Perfil = ({navigation, fondo, perfil}) => {
   const [id, setId] = useState(0);
   const [cli, setCli] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [vis, setVis] = useState(true);
 
   function secciones(seccion) {
     let list_sec = [];
@@ -47,6 +49,7 @@ const Perfil = ({navigation, fondo, perfil}) => {
     }
     return list_sec;
   }
+
   const getIdCli = async () => {
     const item = await AsyncStorage.getItem('idCliente');
     setId(JSON.parse(item));
@@ -54,7 +57,6 @@ const Perfil = ({navigation, fondo, perfil}) => {
       `https://${JsonInfo.ip}/clientes/${JSON.parse(item)}`,
     );
     setCli(Object.values(cliente.data));
-    console.log(cli.slice(0, 5));
   };
 
   useEffect(() => {
@@ -68,6 +70,7 @@ const Perfil = ({navigation, fondo, perfil}) => {
 
   return (
     <ScrollView style={style.scroll}>
+      <Carga visible={vis} setVis={setVis} time={200} />
       <Image
         style={style.img}
         source={fondo ? fondo : Furnitures.furniture10}

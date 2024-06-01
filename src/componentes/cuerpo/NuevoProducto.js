@@ -18,6 +18,8 @@ import validator from 'validator';
 import RNPickerSelect from 'react-native-picker-select';
 import {launchImageLibrary} from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Carga from '../comunes/Carga';
 
 async function imageLaunch() {
   try {
@@ -27,8 +29,6 @@ async function imageLaunch() {
     console.error(error);
   }
 }
-
-//Valida que al editar o agregar uno nuevo sea de manera correcta
 
 //Genera la lista de categorias para RNPickerSelect
 function List_Item(categorias) {
@@ -42,8 +42,10 @@ function List_Item(categorias) {
   return list;
 }
 
-const NuevoProducto = ({navigation, route}) => {
-  const {id, op} = route.params;
+const NuevoProducto = ({navigation}) => {
+  const [op, setOp] = useState('');
+  const [idcli, setIdCli] = useState(0);
+  const [idprod, setIdProd] = useState(0);
   const [prod, setProd] = useState('');
   const [fecha, setFecha] = useState('');
   const [precio, setPrecio] = useState(0);
@@ -53,6 +55,45 @@ const NuevoProducto = ({navigation, route}) => {
   const [dir, setDir] = useState('');
   const [des, setDes] = useState('');
   const [img, setImg] = useState(Furnitures.furniture12);
+  const [vis, setVis] = useState(true);
+
+  useEffect(() => {
+    setVis;
+    getIdCliente();
+    getOp();
+    getIdProducto();
+  }, [op]);
+
+  //* Conoce la id del producto
+  async function getIdProducto() {
+    try {
+      const item = await AsyncStorage.getItem('idProducto');
+      setIdProd(item);
+      if (op === 'Editar') {
+        ObtProducto(item);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //* La vista conoce la opcion elegida
+  async function getOp() {
+    try {
+      const item = await AsyncStorage.getItem('Op');
+      setOp(item);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //* La vista conoce la id del cliente
+  async function getIdCliente() {
+    try {
+      const item = await AsyncStorage.getItem('idCliente');
+      setIdCli(JSON.parse(item));
+    } catch (error) {}
+  }
 
   async function NuevoProduct() {
     try {
@@ -64,9 +105,8 @@ const NuevoProducto = ({navigation, route}) => {
         categoria: cat,
         sucursal: suc,
         direccion: dir,
-        idcliente: id,
+        idcliente: idcli,
       });
-      console.log('Producto agregado con exito');
       navigation.goBack();
     } catch (error) {
       console.error(error);
@@ -75,7 +115,7 @@ const NuevoProducto = ({navigation, route}) => {
 
   async function EditarProduct() {
     try {
-      await axios.put(`https://${JsonInfo.ip}/productos/${id}`, {
+      await axios.put(`https://${JsonInfo.ip}/productos/${idprod}`, {
         nombre: prod,
         peso: peso,
         precio: precio,
@@ -84,7 +124,6 @@ const NuevoProducto = ({navigation, route}) => {
         sucursal: suc,
         direccion: dir,
       });
-      console.log('Producto editado con exito');
       navigation.goBack();
     } catch (error) {
       console.error(error);
@@ -92,11 +131,6 @@ const NuevoProducto = ({navigation, route}) => {
   }
 
   function ValidarNuevo() {
-    console.log(
-      validator.isAlpha(prod),
-      validator.isFloat(peso),
-      validator.isFloat(precio + ''),
-    );
     return (
       validator.isAlpha(prod) &&
       validator.isFloat(peso) &&
@@ -104,31 +138,27 @@ const NuevoProducto = ({navigation, route}) => {
     );
   }
 
-  useEffect(() => {
-    async function ObtProducto() {
-      try {
-        const producto = (
-          await axios.get(`https://${JsonInfo.ip}/productos/${id}`)
-        ).data;
-        setProd(producto.nombre);
-        setFecha(producto.fechacreacion);
-        setPrecio(producto.precio);
-        setCat(producto.categoria);
-        setPeso(producto.peso);
-        setSuc(producto.sucursal);
-        setDir(producto.direccion);
-        setDes(producto.descripcion);
-      } catch (error) {
-        console.error(error);
-      }
+  async function ObtProducto(id) {
+    try {
+      const producto = (
+        await axios.get(`https://${JsonInfo.ip}/productos/${id}`)
+      ).data;
+      setProd(producto.nombre);
+      setFecha(producto.fechacreacion);
+      setPrecio(producto.precio);
+      setCat(producto.categoria);
+      setPeso(producto.peso);
+      setSuc(producto.sucursal);
+      setDir(producto.direccion);
+      setDes(producto.descripcion);
+    } catch (error) {
+      console.error(error);
     }
-    if (op === 'Editar') {
-      ObtProducto();
-    }
-  }, [op]);
+  }
 
   return (
     <View>
+      <Carga visible={vis} setVis={setVis} time={200} />
       <View style={style.head}>
         <Regresar
           func={() => {

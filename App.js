@@ -35,8 +35,17 @@ const App = () => {
   const [inicialRoute, setInicialRoute] = useState('Welcome');
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    // setRoute();
     getIniciaRoute();
   }, []);
+
+  const setRoute = async () => {
+    try {
+      //! Recuperacion de ruta
+      //await AsyncStorage.setItem('inicialRoute', 'Menu');
+      console.log(await AsyncStorage.getAllKeys());
+    } catch (error) {}
+  };
 
   const getIniciaRoute = async () => {
     try {

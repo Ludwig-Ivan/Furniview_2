@@ -9,11 +9,15 @@ import axios from 'axios';
 import Categoria from '../comunes/Categoria';
 
 //funcion que genera la lista de etiquetas que se deseen (debe recibir las etiquetas y procesarlas[pendiente])
-function etiquetas(can) {
+function etiquetas(list) {
   let list_etq = [];
-  for (let i = 0; i < can; i++) {
-    list_etq.push(<Etiqueta key={i} styleExt={style.etiq} />);
-  }
+  let i = 0;
+
+  list.forEach(element => {
+    list_etq.push(<Etiqueta text={element} key={i} styleExt={style.etiq} />);
+    i += 1;
+  });
+
   return list_etq;
 }
 
@@ -26,6 +30,7 @@ const Menu = ({navigation}) => {
   const categorias = async () => {
     let list = [];
     let cat;
+
     for (let i = 0; i < Categorias.length; i++) {
       try {
         cat = (
@@ -80,7 +85,7 @@ const Menu = ({navigation}) => {
           style={style.etiqs}
           showsHorizontalScrollIndicator={false}
           horizontal>
-          {etiquetas(4)}
+          {etiquetas(['Barato', 'Calidad', 'Precio'])}
         </ScrollView>
         <View style={style.cont_cat}>{listcat}</View>
       </ScrollView>

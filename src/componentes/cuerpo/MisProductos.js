@@ -14,6 +14,7 @@ import {JsonInfo} from '../../constants';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Carga from '../comunes/Carga';
 
 //funcion asincrona que elimina los productos de la db.json
 async function BorrarProd(id) {
@@ -31,32 +32,51 @@ const MisProductos = ({navigation}) => {
   const [id, setId] = useState(0);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [vis, setVis] = useState(true);
+
+  async function setOp(op) {
+    try {
+      await AsyncStorage.setItem('Op', op);
+      navigation.navigate('NuevoProducto');
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function setIdProd(idprod) {
+    try {
+      await AsyncStorage.setItem('idProducto', JSON.stringify(idprod));
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const productos = async () => {
     let list_res = [];
     let prods;
+    let i = 0;
     try {
       prods = (
         await axios.get(`https://${JsonInfo.ip}/productos/cliente/${id}`)
       ).data;
     } catch (error) {}
 
-    for (let i = 0; i < prods.length; i++) {
+    prods.forEach(element => {
       list_res.push(
         <Producto
           func={BorrarProd}
           key={i}
           func2={() => {
-            navigation.navigate('NuevoProducto', {
-              id: prods[i].id,
-              op: 'Editar',
-            });
+            setOp('Editar');
+            setIdProd(element.id);
           }}
           icon={'trash-outline'}
-          producto={prods[i]}
+          producto={element}
         />,
       );
-    }
+      i += 1;
+    });
+
     setList(list_res);
   };
 
@@ -89,6 +109,7 @@ const MisProductos = ({navigation}) => {
 
   return (
     <View>
+      <Carga visible={vis} setVis={setVis} time={200} />
       <View style={style.head}>
         <Regresar
           func={() => {
@@ -98,7 +119,7 @@ const MisProductos = ({navigation}) => {
         <Text style={style_txt.tit}>Mis Productos</Text>
         <Pressable
           onPress={() => {
-            navigation.navigate('NuevoProducto', {id: id, op: 'Nuevo'});
+            setOp('Nuevo');
           }}>
           <Icon name={'add-circle-outline'} color={'#000'} size={45} />
         </Pressable>

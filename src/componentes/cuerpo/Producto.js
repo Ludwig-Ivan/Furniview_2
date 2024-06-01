@@ -61,14 +61,14 @@ const Producto = ({navigation, route}) => {
 
   return (
     <View style={{flex: 1}}>
-      <Image_Prod img={furnitures.furniture13} vm={vm} setVM={setVM} />
+      <Image_Prod img={furnitures.furniture1} vm={vm} setVM={setVM} />
       <ScrollView showsVerticalScrollIndicator={false} style={style.body}>
         <Pressable
           onPress={() => {
             setVM(true);
           }}
           style={style.img}>
-          <Image style={style.img} source={furnitures.furniture13} />
+          <Image style={style.img} source={furnitures.furniture1} />
         </Pressable>
         <Regresar
           func={() => {

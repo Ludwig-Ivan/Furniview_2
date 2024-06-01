@@ -29,6 +29,7 @@ const style = StyleSheet.create({
   img: {
     width: '100%',
     maxHeight: 400,
+    height: 400,
   },
 });
 export default Image_Prod;
