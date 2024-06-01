@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {
@@ -8,18 +9,11 @@ import {
   Text,
   View,
 } from 'react-native';
-import {Default_theme, Furnitures, Imagenes} from '../../constants';
+import {Default_theme, Furnitures, Imagenes, JsonInfo} from '../../constants';
 import Seccion_2 from '../comunes/Seccion_2';
 import Regresar from '../comunes/Regresar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-function secciones(can) {
-  let list_sec = [];
-  for (let i = 0; i < can; i++) {
-    list_sec.push(<Seccion_2 styleExt={style.sec} key={i} />);
-  }
-  return list_sec;
-}
+import axios from 'axios';
 
 async function ResetId() {
   try {
@@ -30,11 +24,37 @@ async function ResetId() {
 
 const Perfil = ({navigation, fondo, perfil}) => {
   const [id, setId] = useState(0);
+  const [cli, setCli] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  function secciones(seccion) {
+    let list_sec = [];
+    const list_info = [cli.slice(1, 5), cli.slice(5)];
+    const list_icons = [
+      ['person', 'body-sharp', 'finger-print', 'mail'],
+      ['map', 'map-sharp', 'business', 'calendar-sharp', 'call'],
+    ];
+    for (let i = 0; i < seccion.length; i++) {
+      list_sec.push(
+        <Seccion_2
+          titulo={seccion[i]}
+          list_info={list_info[i]}
+          list_icons={list_icons[i]}
+          styleExt={style.sec}
+          key={i}
+        />,
+      );
+    }
+    return list_sec;
+  }
   const getIdCli = async () => {
     const item = await AsyncStorage.getItem('idCliente');
     setId(JSON.parse(item));
+    const cliente = await axios.get(
+      `https://${JsonInfo.ip}/clientes/${JSON.parse(item)}`,
+    );
+    setCli(Object.values(cliente.data));
+    console.log(cli.slice(0, 5));
   };
 
   useEffect(() => {
@@ -53,7 +73,7 @@ const Perfil = ({navigation, fondo, perfil}) => {
         source={fondo ? fondo : Furnitures.furniture10}
       />
       <View style={style.cont}>
-        {secciones(2)}
+        {secciones(['Informacion de Usuario', 'Localizacion'])}
         <Pressable
           onPress={() => {
             ResetId();

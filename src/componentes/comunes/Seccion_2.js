@@ -3,18 +3,27 @@ import {StyleSheet, Text, View} from 'react-native';
 import Item from './Item';
 import {Default_theme} from '../../constants';
 
-function items(can) {
-  const list_items = [];
-  for (let i = 0; i < can; i++) {
-    list_items.push(<Item key={i} styleExt={style.item} />);
+const Seccion_2 = ({titulo, list_info, list_icons, styleExt}) => {
+  function items() {
+    const list_items = [];
+    for (let i = 0; i < list_info.length; i++) {
+      list_items.push(
+        <Item
+          key={i}
+          value={list_info[i]}
+          icon={list_icons[i]}
+          edit={false}
+          styleExt={style.item}
+        />,
+      );
+    }
+    return list_items;
   }
-  return list_items;
-}
-const Seccion_2 = ({titulo, can, styleExt}) => {
+
   return (
     <View style={[style.sec, styleExt]}>
       <Text style={style.titulo}>{titulo ? titulo : 'Seccion'}</Text>
-      <View>{items(5)}</View>
+      <View>{items()}</View>
     </View>
   );
 };

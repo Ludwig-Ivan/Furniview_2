@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
@@ -31,7 +30,7 @@ const Welcome_Screen = ({navigation}) => (
   </Background>
 );
 
-//Sistema de navegacion principal tipo Stack
+//* Sistema de navegacion principal tipo Stack
 const App = () => {
   const [inicialRoute, setInicialRoute] = useState('Welcome');
   const [loading, setLoading] = useState(true);
