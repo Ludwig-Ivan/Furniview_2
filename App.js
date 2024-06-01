@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {PaperProvider} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
@@ -13,6 +14,8 @@ import BottomTap from './src/componentes/navigations/BottomTap';
 import NuevoProducto from './src/componentes/cuerpo/NuevoProducto';
 import Background from './src/componentes/comunes/Background';
 import Welcome from './src/componentes/introduccion/Welcome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Default_theme} from './src/constants';
 
 const Stack = createStackNavigator();
 
@@ -30,12 +33,31 @@ const Welcome_Screen = ({navigation}) => (
 
 //Sistema de navegacion principal tipo Stack
 const App = () => {
+  const [inicialRoute, setInicialRoute] = useState('Welcome');
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    getIniciaRoute();
+  }, []);
+
+  const getIniciaRoute = async () => {
+    try {
+      const item = await AsyncStorage.getItem('inicialRoute');
+      setInicialRoute(item);
+      setLoading(false);
+    } catch (error) {}
+  };
+
+  if (loading) {
+    return <View style={{backgroundColor: Default_theme.primary, flex: 1}} />;
+  }
+
   return (
     <NavigationContainer>
       <PaperProvider>
         <View style={{flex: 1}}>
           <Stack.Navigator
-            initialRouteName="Welcome"
+            id="StackNavigator"
+            initialRouteName={inicialRoute}
             screenOptions={{headerShown: false}}>
             <Stack.Screen name="Welcome" component={Welcome_Screen} />
             <Stack.Screen name="Principal" component={Principal} />

@@ -14,6 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const setIdCli = async id => {
   try {
     await AsyncStorage.setItem('idCliente', JSON.stringify(id));
+    await AsyncStorage.setItem('inicialRoute', 'Menu');
   } catch (error) {
     console.error(error);
   }

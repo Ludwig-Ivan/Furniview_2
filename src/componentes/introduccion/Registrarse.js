@@ -9,9 +9,10 @@ import Regresar from '../comunes/Regresar';
 import axios from 'axios';
 import zxcvbn from 'zxcvbn';
 import validator from 'validator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Funcion encargada de Registrar el cliente en base a su email, contrasena y usuario
-async function Ingresar_Cli(email, user, password, navigation) {
+async function Registrar_Cli(email, user, password, navigation) {
   try {
     //Se registra el cliente
     await axios.post(`https://${JsonInfo.ip}/clientes`, {
@@ -25,7 +26,11 @@ async function Ingresar_Cli(email, user, password, navigation) {
       `https://${JsonInfo.ip}/clientes/${email}/${password}`,
     );
     const ocli = cli.data;
-    navigation.navigate('Menu', {id: ocli.id});
+
+    if (ocli !== null) {
+      await AsyncStorage.setItem('idCliente', JSON.stringify(ocli.id));
+      navigation.navigate('Menu');
+    }
   } catch (error) {
     console.error(error);
   }
@@ -117,7 +122,7 @@ const Registrarse = ({navigation}) => {
                   ValidarDatos(email, user, password, repcontrasena, score),
                 );
                 if (error === '') {
-                  Ingresar_Cli(email, user, password, navigation);
+                  Registrar_Cli(email, user, password, navigation);
                 }
               }
             }

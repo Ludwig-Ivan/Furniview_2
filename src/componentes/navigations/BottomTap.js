@@ -43,6 +43,7 @@ const BottomTap = () => {
   return (
     <Bottom.Navigator
       //opciones de la navegacion
+      id="BottomNavigator"
       screenOptions={{
         headerShown: false,
         tabBarStyle: style.bottom,

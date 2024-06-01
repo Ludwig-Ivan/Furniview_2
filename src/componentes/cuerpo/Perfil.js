@@ -1,5 +1,13 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {Default_theme, Furnitures, Imagenes} from '../../constants';
 import Seccion_2 from '../comunes/Seccion_2';
 import Regresar from '../comunes/Regresar';
@@ -11,6 +19,13 @@ function secciones(can) {
     list_sec.push(<Seccion_2 styleExt={style.sec} key={i} />);
   }
   return list_sec;
+}
+
+async function ResetId() {
+  try {
+    await AsyncStorage.setItem('idCliente', JSON.stringify(0));
+    await AsyncStorage.setItem('inicialRoute', 'Welcome');
+  } catch (error) {}
 }
 
 const Perfil = ({navigation, fondo, perfil}) => {
@@ -28,11 +43,7 @@ const Perfil = ({navigation, fondo, perfil}) => {
   }, []);
 
   if (loading) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <View style={{backgroundColor: Default_theme.primary, flex: 1}} />;
   }
 
   return (
@@ -43,6 +54,17 @@ const Perfil = ({navigation, fondo, perfil}) => {
       />
       <View style={style.cont}>
         {secciones(2)}
+        <Pressable
+          onPress={() => {
+            ResetId();
+            navigation.getParent('StackNavigator').reset({
+              index: 0,
+              routes: [{name: 'Principal'}],
+            });
+          }}
+          style={style.btn}>
+          <Text style={style_txt.btn_text}>CERRAR SESION</Text>
+        </Pressable>
         <View style={style.cont_perfil}>
           <Image
             style={style.perfil}
@@ -84,6 +106,11 @@ const style_txt = StyleSheet.create({
     fontSize: 24,
     fontWeight: '700',
   },
+  btn_text: {
+    fontSize: 14,
+    color: '#FFF',
+    fontWeight: '900',
+  },
 });
 
 const style = StyleSheet.create({
@@ -121,6 +148,15 @@ const style = StyleSheet.create({
   },
   sec: {
     width: '100%',
+  },
+  btn: {
+    backgroundColor: 'rgba(255,0,0,0.6)',
+    width: '90%',
+    height: 50,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30,
   },
 });
 
