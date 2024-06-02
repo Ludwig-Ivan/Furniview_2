@@ -37,6 +37,7 @@ const MisProductos = ({navigation}) => {
   async function setOp(op) {
     try {
       await AsyncStorage.setItem('Op', op);
+      await AsyncStorage.setItem('inicialRoute', 'NuevoProducto');
       navigation.navigate('NuevoProducto');
     } catch (error) {
       console.error(error);

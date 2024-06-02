@@ -56,20 +56,83 @@ const NuevoProducto = ({navigation}) => {
   const [des, setDes] = useState('');
   const [img, setImg] = useState(Furnitures.furniture12);
   const [vis, setVis] = useState(true);
+  const [temp, setTemp] = useState(false);
 
   useEffect(() => {
-    setVis;
+    getTempProd();
     getIdCliente();
     getOp();
     getIdProducto();
   }, [op]);
+
+  //* Obtiene la informacion del campo temporal
+  async function getTempProd() {
+    try {
+      const item = JSON.parse(await AsyncStorage.getItem('tempProducto'));
+      if (item !== null) {
+        setTemp(true);
+        setProd(item.prod);
+        setPrecio(item.precio === '' ? 0 : item.precio);
+        setPeso(item.peso);
+        setCat(item.cat);
+        setSuc(item.suc);
+        setDir(item.dir);
+        setDes(item.des);
+        setImg(item.img);
+      }
+    } catch (error) {}
+  }
+
+  //* Se encarga de subir la informacion cada que se cierra el teclado virtual
+  function onBlur() {
+    subirInfo();
+  }
+
+  //* Sube la informacion al campo temporal
+  async function subirInfo() {
+    try {
+      await AsyncStorage.setItem(
+        'tempProducto',
+        JSON.stringify({
+          prod: prod,
+          precio: precio,
+          peso: peso,
+          cat: cat,
+          suc: suc,
+          dir: dir,
+          des: des,
+          img: img,
+        }),
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //* Resetea la informacion que esta en el campo temporal
+  async function resetInfo() {
+    try {
+      await AsyncStorage.setItem('tempProducto', JSON.stringify(null));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //* Establece la ruta inicial hacia la ventana de nuevo producto
+  async function setInicialRoute() {
+    try {
+      await AsyncStorage.setItem('inicialRoute', 'Menu');
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   //* Conoce la id del producto
   async function getIdProducto() {
     try {
       const item = await AsyncStorage.getItem('idProducto');
       setIdProd(item);
-      if (op === 'Editar') {
+      if (op === 'Editar' && !temp) {
         ObtProducto(item);
       }
     } catch (error) {
@@ -162,13 +225,24 @@ const NuevoProducto = ({navigation}) => {
       <View style={style.head}>
         <Regresar
           func={() => {
-            navigation.goBack();
+            setInicialRoute();
+            resetInfo();
+            if (navigation.canGoBack()) {
+              navigation.goBack();
+            } else {
+              navigation.reset({
+                index: 0,
+                routes: [{name: 'Menu'}],
+              });
+            }
           }}
         />
         <Text style={style_txt.tit}>{op} Producto</Text>
         <Pressable
           onPress={() => {
             if (ValidarNuevo()) {
+              setInicialRoute();
+              resetInfo();
               if (op === 'Nuevo') {
                 NuevoProduct();
               } else {
@@ -193,6 +267,7 @@ const NuevoProducto = ({navigation}) => {
             <TextInput
               maxLength={30}
               multiline
+              onBlur={onBlur}
               style={style_txt.prod}
               placeholder="Producto"
               placeholderTextColor={'#000'}
@@ -203,6 +278,7 @@ const NuevoProducto = ({navigation}) => {
             />
             {op !== 'Nuevo' ? (
               <TextInput
+                onBlur={onBlur}
                 maxLength={10}
                 placeholder="Fecha"
                 placeholderTextColor={'#000'}
@@ -224,6 +300,7 @@ const NuevoProducto = ({navigation}) => {
                 $
               </Text>
               <TextInput
+                onBlur={onBlur}
                 style={style_txt.pre}
                 maxLength={10}
                 placeholder="Precio"
@@ -239,6 +316,7 @@ const NuevoProducto = ({navigation}) => {
         <View style={style.desc}>
           <Text style={style_txt.title_des}>Descripcion</Text>
           <TextInput
+            onBlur={onBlur}
             style={style_txt.desc}
             multiline
             numberOfLines={5}
@@ -257,6 +335,7 @@ const NuevoProducto = ({navigation}) => {
           edit={true}
           icon={'barbell'}
           titulo={'Peso'}
+          onBlur={onBlur}
         />
         <View style={style.pick}>
           <Text style={style_txt.title_des}>Categoria</Text>
@@ -277,6 +356,7 @@ const NuevoProducto = ({navigation}) => {
           setText={setSuc}
           edit={true}
           titulo={'Sucursal'}
+          onBlur={onBlur}
         />
         <Seccion
           value={dir}
@@ -284,6 +364,7 @@ const NuevoProducto = ({navigation}) => {
           edit={true}
           icon={'business'}
           titulo={'Direccion'}
+          onBlur={onBlur}
         />
       </ScrollView>
     </View>
