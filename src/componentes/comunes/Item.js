@@ -3,7 +3,7 @@ import {StyleSheet, TextInput, View} from 'react-native';
 import {Default_theme} from '../../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const Item = ({placeholder, value, icon, setText, styleExt, edit}) => {
+const Item = ({placeholder, value, icon, setText, styleExt, edit, onBlur}) => {
   //placeholder - el texto que aparece en el placeholder del input
   //value - el valor del input
   //icon - el icono que aparece a un lado del input
@@ -16,6 +16,11 @@ const Item = ({placeholder, value, icon, setText, styleExt, edit}) => {
         color={'#000'}
       />
       <TextInput
+        onBlur={() => {
+          try {
+            onBlur();
+          } catch (error) {}
+        }}
         style={style.text}
         editable={edit}
         onChangeText={text => {

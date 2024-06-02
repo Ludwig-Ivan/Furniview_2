@@ -3,7 +3,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import Item from './Item';
 import {Default_theme} from '../../constants';
 
-const Seccion = ({titulo, value, edit, setText, icon}) => {
+const Seccion = ({titulo, value, edit, setText, icon, onBlur}) => {
   return (
     <View style={style.sec}>
       <Text style={style.titulo}>{titulo ? titulo : 'Seccion'}</Text>
@@ -13,6 +13,7 @@ const Seccion = ({titulo, value, edit, setText, icon}) => {
         setText={setText}
         value={value}
         edit={edit}
+        onBlur={onBlur}
       />
     </View>
   );

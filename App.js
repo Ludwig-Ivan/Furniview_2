@@ -35,7 +35,7 @@ const App = () => {
   const [inicialRoute, setInicialRoute] = useState('Welcome');
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    // setRoute();
+    setRoute();
     getIniciaRoute();
   }, []);
 
@@ -44,6 +44,9 @@ const App = () => {
       //! Recuperacion de ruta
       //await AsyncStorage.setItem('inicialRoute', 'Menu');
       console.log(await AsyncStorage.getAllKeys());
+      console.log(
+        'ruta inicial: ' + (await AsyncStorage.getItem('inicialRoute')),
+      );
     } catch (error) {}
   };
 
