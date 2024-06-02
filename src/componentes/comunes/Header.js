@@ -1,18 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import SerachBar from './SerachBar';
 
-const Header = ({styleExt}) => {
-  const [bus, setBus] = useState('');
+const Header = ({bus, setBus, func, styleExt}) => {
   return (
     <View style={[style.head, styleExt]}>
       <SerachBar
         value={bus}
         setText={setBus}
         placeholder={'Buscar'}
-        func={() => {
-          console.log('si jalo');
-        }}
+        func={func}
       />
     </View>
   );

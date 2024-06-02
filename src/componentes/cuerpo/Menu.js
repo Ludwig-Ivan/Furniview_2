@@ -25,8 +25,34 @@ function etiquetas(list) {
 const Menu = ({navigation}) => {
   const [listcat, setListCat] = useState(['']);
   const [refreshing, setRefreshing] = useState(false);
+  const [bus, setBus] = useState('');
 
-  //funcion encargada de generar las categorias y sus items
+  //* funcion encargada de buscar los productos con el mismo nombre
+  async function serchProductos() {
+    try {
+      let list = [];
+
+      const productos = (
+        await axios.get(`https://${JsonInfo.ip}/productos/producto/${bus}`)
+      ).data;
+
+      list.push(
+        <Categoria
+          title={bus}
+          cat={productos}
+          func={Nav}
+          key={1}
+          styleExt={style.cat}
+        />,
+      );
+
+      setListCat(list);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  //* funcion encargada de generar las categorias y sus items
   const categorias = async () => {
     let list = [];
     let cat;
@@ -54,10 +80,12 @@ const Menu = ({navigation}) => {
     setListCat(list);
   };
 
+  //* useEffect que genera las categorias al crearse la vista
   useEffect(() => {
     categorias();
   }, []);
 
+  //* funcion para refrescar el menu de los productos
   const onRefresh = () => {
     setRefreshing(true);
     categorias();
@@ -68,6 +96,7 @@ const Menu = ({navigation}) => {
 
   const [vis, setVis] = useState(true);
 
+  //* funcion para navegacion a la ventana del producto indicado
   function Nav(idp) {
     navigation.navigate('Producto', {idp});
   }
@@ -75,7 +104,14 @@ const Menu = ({navigation}) => {
   return (
     <View>
       <Carga visible={vis} setVis={setVis} time={200} />
-      <Header styleExt={style.head} />
+      <Header
+        styleExt={style.head}
+        bus={bus}
+        setBus={setBus}
+        func={() => {
+          serchProductos();
+        }}
+      />
       <ScrollView
         style={style.body}
         refreshControl={
