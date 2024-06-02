@@ -16,6 +16,7 @@ import {Default_theme, JsonInfo} from '../../constants';
 import BottomTap from '../comunes/BottomTap';
 import Image_Prod from './ImageProd';
 import axios from 'axios';
+import Carga from '../comunes/Carga';
 
 //funcion que genera la lista de seccion para informacion (falta que leea la info[pendiente])
 function Info(list, list_sec, list_icon) {
@@ -53,6 +54,7 @@ const Producto = ({navigation, route}) => {
   //se obtiene el producto indicado para mostrarlo
   const [prod, setProd] = useState({});
   const [cli, setCli] = useState({});
+  const [vis, setVis] = useState(true);
 
   useEffect(() => {
     obtenerProd(route.params, setProd, setCli);
@@ -61,6 +63,7 @@ const Producto = ({navigation, route}) => {
 
   return (
     <View style={{flex: 1}}>
+      <Carga visible={vis} setVis={setVis} time={200} />
       <Image_Prod img={furnitures.furniture1} vm={vm} setVM={setVM} />
       <ScrollView showsVerticalScrollIndicator={false} style={style.body}>
         <Pressable
@@ -68,7 +71,14 @@ const Producto = ({navigation, route}) => {
             setVM(true);
           }}
           style={style.img}>
-          <Image style={style.img} source={furnitures.furniture1} />
+          <Image
+            style={style.img}
+            source={{
+              uri: prod.imagen
+                ? prod.imagen
+                : 'https://res.cloudinary.com/dyxggwud5/image/upload/v1717355578/Furniview/furnitures/Sofa_bbbpnn.jpg',
+            }}
+          />
         </Pressable>
         <Regresar
           func={() => {

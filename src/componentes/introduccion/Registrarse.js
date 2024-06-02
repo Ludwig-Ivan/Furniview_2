@@ -74,7 +74,12 @@ const Registrarse = ({navigation}) => {
           source={furnitures.furniture9}
         />
       </View>
-      <Regresar styleExt={style.reg} />
+      <Regresar
+        func={() => {
+          navigation.goBack();
+        }}
+        styleExt={style.reg}
+      />
       <View style={style.body}>
         <View style={style.cont_tit}>
           <Text style={style.tit}>REGISTRARSE</Text>

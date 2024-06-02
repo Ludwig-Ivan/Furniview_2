@@ -51,13 +51,17 @@ const Ingresar = ({navigation}) => {
     <View style={{flex: 1}}>
       <View style={style.cont_img}>
         <Image
-          resizeMethod="scale"
           resizeMode="stretch"
           style={style.img}
           source={furnitures.furniture9}
         />
       </View>
-      <Regresar styleExt={style.reg} />
+      <Regresar
+        func={() => {
+          navigation.goBack();
+        }}
+        styleExt={style.reg}
+      />
       <View style={style.body}>
         <View style={style.cont_tit}>
           <Text style={style.tit}>INGRESAR</Text>
@@ -121,7 +125,7 @@ const style = StyleSheet.create({
     marginTop: 30,
   },
   img: {
-    height: 360,
+    height: 260,
     width: 360,
     top: -50,
   },

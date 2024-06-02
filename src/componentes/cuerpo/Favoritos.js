@@ -9,7 +9,13 @@ function favoritos(can) {
   for (let i = 1; i <= can; i++) {
     list_res.push(
       <Producto
-        producto={{id: '1', nombre: 'null', precio: '10.00'}}
+        producto={{
+          id: '1',
+          nombre: 'null',
+          precio: '10.00',
+          imagen:
+            'https://res.cloudinary.com/dyxggwud5/image/upload/v1717355578/Furniview/furnitures/Cajonera1_etyvhd.jpg',
+        }}
         key={i}
         icon={'heart-outline'}
       />,

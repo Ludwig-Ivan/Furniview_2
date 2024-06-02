@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   Image,
   Pressable,
   ScrollView,
@@ -12,7 +13,7 @@ import {
 } from 'react-native';
 import Regresar from '../comunes/Regresar';
 import Seccion from '../comunes/Seccion';
-import {Categorias, Default_theme, Furnitures, JsonInfo} from '../../constants';
+import {Categorias, Default_theme, JsonInfo} from '../../constants';
 import axios from 'axios';
 import validator from 'validator';
 import RNPickerSelect from 'react-native-picker-select';
@@ -54,7 +55,9 @@ const NuevoProducto = ({navigation}) => {
   const [suc, setSuc] = useState('');
   const [dir, setDir] = useState('');
   const [des, setDes] = useState('');
-  const [img, setImg] = useState(Furnitures.furniture12);
+  const [img, setImg] = useState(
+    'https://res.cloudinary.com/dyxggwud5/image/upload/v1717355578/Furniview/furnitures/Sofa_bbbpnn.jpg',
+  );
   const [vis, setVis] = useState(true);
   const [temp, setTemp] = useState(false);
 
@@ -165,6 +168,7 @@ const NuevoProducto = ({navigation}) => {
         peso: peso,
         precio: precio,
         descripcion: des,
+        imagen: img,
         categoria: cat,
         sucursal: suc,
         direccion: dir,
@@ -210,6 +214,7 @@ const NuevoProducto = ({navigation}) => {
       setFecha(producto.fechacreacion);
       setPrecio(producto.precio);
       setCat(producto.categoria);
+      setImg(producto.imagen);
       setPeso(producto.peso);
       setSuc(producto.sucursal);
       setDir(producto.direccion);
@@ -261,7 +266,7 @@ const NuevoProducto = ({navigation}) => {
         showsVerticalScrollIndicator={false}>
         <View style={style.form_con}>
           <Pressable onPress={imageLaunch}>
-            <Image style={style.img} source={img} />
+            <Image style={style.img} source={{uri: img}} />
           </Pressable>
           <View style={style.form}>
             <TextInput

@@ -1,12 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import {Default_theme, Furnitures} from '../../constants';
+import {Default_theme} from '../../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 //Este componente recibe un objeto producto(contiene la informacion y la desempaqueta), una imagen relacionada, icon, func y estilos extras
 const Producto = ({producto, img, icon, func, func2, styleExt}) => {
-  const {id, nombre, precio} = producto;
+  const {id, nombre, precio, imagen} = producto;
   return (
     <Pressable
       onPress={() => {
@@ -14,7 +14,7 @@ const Producto = ({producto, img, icon, func, func2, styleExt}) => {
       }}
       style={[style.body, styleExt]}>
       <View style={{flexDirection: 'row', gap: 18, alignItems: 'center'}}>
-        <Image style={style.furn} source={img ? img : Furnitures.furniture1} />
+        <Image style={style.furn} source={{uri: imagen}} />
         <View style={{gap: 16}}>
           <Text style={style.text}>{nombre ? nombre : 'Producto'}</Text>
           <Text style={style.text}>{'$' + (precio ? precio : '00.00')}</Text>

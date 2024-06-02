@@ -1,10 +1,10 @@
 import React from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import {Default_theme, Furnitures} from '../../constants';
+import {Default_theme} from '../../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const Producto_2 = ({producto, img, func, styleExt}) => {
-  const {id, nombre, precio} = producto;
+const Producto_2 = ({producto, func, styleExt}) => {
+  const {id, nombre, precio, imagen} = producto;
   return (
     <Pressable
       style={[style.body, styleExt]}
@@ -16,7 +16,7 @@ const Producto_2 = ({producto, img, func, styleExt}) => {
         }
       }}>
       <View style={style.info}>
-        <Image style={style.img} source={img ? img : Furnitures.furniture1} />
+        <Image style={style.img} source={{uri: imagen}} />
         <Text style={style.precio}>{'$' + (precio ? precio : '00.00')}</Text>
         <Pressable
           onPress={() => {
@@ -40,32 +40,33 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
+    overflow: 'hidden',
   },
   icon: {
-    right: 1,
-    top: 1,
+    right: 15,
+    top: 15,
     position: 'absolute',
   },
   img: {
-    height: 154,
-    width: 153,
+    height: 184,
+    width: 184,
     position: 'absolute',
   },
   info: {
-    width: 153,
-    height: 154,
+    width: 184,
+    height: 184,
   },
   precio: {
-    left: 1,
-    top: 1,
+    left: 15,
+    top: 15,
     position: 'absolute',
     fontSize: 16,
     fontWeight: '900',
     color: '#000',
   },
   prod: {
-    left: 1,
-    bottom: 1,
+    left: 25,
+    bottom: 15,
     position: 'absolute',
     fontSize: 14,
     color: '#000',
